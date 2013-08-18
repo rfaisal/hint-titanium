@@ -1,10 +1,9 @@
 exports.ApplicationWindow = function() {
-	
 	var leftMenu=	require('ui/left_menu').ApplicationWindow;
 	leftMenu=new leftMenu();
 	var rightMenu	=require('ui/right_menu').ApplicationWindow;
 	rightMenu=new rightMenu();
-	var navWin=require('ui/home').ApplicationWindow;
+	var navWin=require('ui/notcheckedin').ApplicationWindow;
 	navWin=new navWin();
 	var self = Ti.UI.createWindow({  
 		title:'Hint',
