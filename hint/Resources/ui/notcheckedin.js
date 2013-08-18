@@ -45,7 +45,11 @@ exports.ApplicationWindow = function() {
 		height:33,
 		top:line.top+line.height+15
 	});
-	//loginButton.addEventListener('click',loggedInListener);
+	checkinButton.addEventListener('click',function(ev){
+		var win=require('ui/update_your_look').ApplicationWindow;
+		win=new win();
+		win.open();
+	});
 	self.add(name);
 	self.add(address);
 	self.add(logo);
