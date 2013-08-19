@@ -7,7 +7,7 @@
 		var loggedInCallback=function(ev){
 			win.close();
 			win=require('ui/base').ApplicationWindow;
-			win = new win();
+			win = new win('home');
 			win.open();
 		};
 		win = new win(loggedInCallback);

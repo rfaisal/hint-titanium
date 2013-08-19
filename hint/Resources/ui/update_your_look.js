@@ -94,6 +94,9 @@ exports.ApplicationWindow = function() {
 	});
 	conformBtn.addEventListener('click',function(ev){
 		self.close();
+		var win=require('ui/base').ApplicationWindow;
+		win = new win('checkedin');
+		win.open();
 	});
 	popup.add(photo);
 	popup.add(lebel1);

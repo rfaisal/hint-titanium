@@ -95,7 +95,8 @@ exports.ApplicationWindow = function() {
 			top:44,
 			height:44*n,
 			width: Ti.Platform.displayCaps.platformWidth*0.75,
-			separatorStyle:Titanium.UI.iPhone.TableViewSeparatorStyle.NONE
+			separatorStyle:Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
+			
 		});
 	var shadow=Ti.UI.createLabel({
 		text:'',

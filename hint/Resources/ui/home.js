@@ -38,6 +38,11 @@ exports.ApplicationWindow = function() {
 		separatorStyle:Titanium.UI.iPhone.TableViewSeparatorStyle.NONE
 		
 	});
+	tableview.addEventListener('click',function(ev){
+			var win=require('ui/base').ApplicationWindow;
+			win = new win('notcheckedin');
+			win.open();
+	});
 	navWin.add(search);
 	navWin.add(tableview);
 	return navWin;

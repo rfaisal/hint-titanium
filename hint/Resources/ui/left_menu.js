@@ -1,4 +1,4 @@
-exports.ApplicationWindow = function() {
+exports.ApplicationWindow = function(parent) {
 	var self = Ti.UI.createWindow({  
 	    backgroundImage: '/images/HintBackgroundTexture.png',
 	    left:-Ti.Platform.displayCaps.platformWidth*0.75,
@@ -23,12 +23,21 @@ exports.ApplicationWindow = function() {
 		    height:44,
 		    left: 60
 		});
+		data[i]= Ti.UI.createTableViewRow(
+		 {
+		    backgroundImage:'/images/HintLeftSidebarCell.png',
+		    
+		 });
 		switch(i){
 			case 0:
 				logo.backgroundImage = '/images/HintNearbyPlacesIcon.png';
 				logo.height=23.5;
 				logo.width=16.5;
 				label.text = 'Nearby Places';
+				 data[i].addEventListener('click',function(ev){
+				 	if(parent)
+				 		parent.close();
+				 });
 				break;
 			case 1:
 				logo.backgroundImage = '/images/HintCurrentLookIcon.png';
@@ -50,13 +59,10 @@ exports.ApplicationWindow = function() {
 				label.text = 'My Events';
 				break;
 		}
-		data[i]= Ti.UI.createTableViewRow(
-		 {
-		    backgroundImage:'/images/HintLeftSidebarCell.png',
-		    
-		 });
+
 		 data[i].add(logo);
 		 data[i].add(label);
+
 	}
 
 	var tableView1	= Ti.UI.createTableView(

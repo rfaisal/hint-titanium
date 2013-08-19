@@ -1,6 +1,6 @@
-exports.ApplicationWindow = function(navWin, parent,leftMenu,rightMenu) {
+exports.ApplicationWindow = function(page, parent,leftMenu,rightMenu) {
 	var self=Ti.UI.iPhone.createNavigationGroup({
-	   window: navWin,
+	   window: page,
 	   left: 0,
 	   width: Ti.Platform.displayCaps.platformWidth
 	});

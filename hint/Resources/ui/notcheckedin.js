@@ -1,4 +1,4 @@
-exports.ApplicationWindow = function() {
+exports.ApplicationWindow = function(parent) {
 	var self = Ti.UI.createWindow({
     	left: 0,
 		zIndex: 10,
