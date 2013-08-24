@@ -1,7 +1,7 @@
 exports.ApplicationWindow = function() {
 	var self = Ti.UI.createWindow({  
 	    backgroundImage: '/images/HintBackgroundTexture.png',
-	    left:  Ti.Platform.displayCaps.platformWidth,
+	    right:  0,
 	    width: Ti.Platform.displayCaps.platformWidth*0.75,
 		zIndex: 1
 	});

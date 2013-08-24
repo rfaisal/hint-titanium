@@ -1,7 +1,7 @@
-exports.ApplicationWindow = function(parent) {
+exports.ApplicationWindow = function() {
 	var self = Ti.UI.createWindow({  
 	    backgroundImage: '/images/HintBackgroundTexture.png',
-	    left:-Ti.Platform.displayCaps.platformWidth*0.75,
+	    left:0,//-Ti.Platform.displayCaps.platformWidth*0.75,
 	    width: Ti.Platform.displayCaps.platformWidth*0.75,
 		zIndex: 1
 	});
@@ -34,10 +34,6 @@ exports.ApplicationWindow = function(parent) {
 				logo.height=23.5;
 				logo.width=16.5;
 				label.text = 'Nearby Places';
-				 data[i].addEventListener('click',function(ev){
-				 	if(parent)
-				 		parent.close();
-				 });
 				break;
 			case 1:
 				logo.backgroundImage = '/images/HintCurrentLookIcon.png';
