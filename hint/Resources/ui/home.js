@@ -1,8 +1,13 @@
 exports.ApplicationWindow = function() {
-	var navWin = Ti.UI.createWindow({
+	var self = Ti.UI.createWindow({
     	left: 0,
 		zIndex: 10,
 		barImage:'/images/HintNavBar.png'
+	});
+	var animateToBegin = Ti.UI.createAnimation({
+		left: 0,
+		curve: Ti.UI.ANIMATION_CURVE_EASE_OUT,
+		duration: 500
 	});
 	var search=Ti.UI.createSearchBar({
 		barColor:'#fff',
@@ -39,11 +44,9 @@ exports.ApplicationWindow = function() {
 		
 	});
 	tableview.addEventListener('click',function(ev){
-			var win=require('ui/base').ApplicationWindow;
-			win = new win('notcheckedin');
-			win.open();
+		Ti.App.remove_all_from_base(Ti.App.not_checked_in_w);
 	});
-	navWin.add(search);
-	navWin.add(tableview);
-	return navWin;
+	self.add(search);
+	self.add(tableview);
+	return self;
 };

@@ -34,6 +34,9 @@ exports.ApplicationWindow = function() {
 				logo.height=23.5;
 				logo.width=16.5;
 				label.text = 'Nearby Places';
+				data[i].addEventListener('click',function(ev){
+					Ti.App.remove_all_from_base(Ti.App.home_w);
+				});
 				break;
 			case 1:
 				logo.backgroundImage = '/images/HintCurrentLookIcon.png';

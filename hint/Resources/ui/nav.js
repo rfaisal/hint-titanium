@@ -1,4 +1,4 @@
-exports.ApplicationWindow = function(page, parent) {
+exports.ApplicationWindow = function(page, parent,super_parent) {
 	var self=Ti.UI.iPhone.createNavigationGroup({
 	   window: page,
 	   left: 0,
@@ -24,25 +24,26 @@ exports.ApplicationWindow = function(page, parent) {
 		curve: Ti.UI.ANIMATION_CURVE_EASE_OUT,
 		duration: 500
 	});
-	animateToBegin.addEventListener('complete', function(){ 
-		    if (Ti.App.home_w.children) {
-		        for (var c = Ti.App.home_w.children.length - 1; c >= 0; c--) {
-		        	if(Ti.App.home_w.children[c] == Ti.App.left_w){
-		        		Ti.App.home_w.remove(Ti.App.left_w);
-		        		Ti.API.info("left window removed");
-		        	}	
-		        	else if(Ti.App.home_w.children[c] == Ti.App.right_w){
-		        		Ti.App.home_w.remove(Ti.App.right_w);
-		        		Ti.API.info("right window removed");
-		        	}
-		        }
-		    }
-	});
 	var animateToEnd = Ti.UI.createAnimation({
 		left: Ti.Platform.displayCaps.platformWidth,
 		curve: Ti.UI.ANIMATION_CURVE_EASE_OUT,
 		duration: 500
 	});	
+	animateToBegin.addEventListener('complete', function(){ 
+	    if (super_parent.children) {
+	        for (var c = super_parent.children.length - 1; c >= 0; c--) {
+	        	if(super_parent.children[c] == Ti.App.left_w){
+	        		super_parent.remove(Ti.App.left_w);
+	        		Ti.API.info("left window removed");
+	        	}	
+	        	else if(super_parent.children[c] == Ti.App.right_w){
+	        		super_parent.remove(Ti.App.right_w);
+	        		Ti.API.info("right window removed");
+	        	}
+	        }
+		}
+	});
+	
 
 	var navMenuBtn = Ti.UI.createButton({
 		title: '',
@@ -71,29 +72,22 @@ exports.ApplicationWindow = function(page, parent) {
 	var isToggled = false;
 	navMenuBtn.addEventListener('click',function(e){
 		if( !isToggled ){
-			//Ti.App.left_w.open();
-			Ti.App.home_w.add(Ti.App.left_w);
+			super_parent.add(Ti.App.left_w);
 			parent.animate(animateToRight);
-		//	Ti.App.left_w.animate(animateToBegin);
 			isToggled = true;
 		} else {
-		//	Ti.App.left_w.close();
 			parent.animate(animateToBegin);
-		
-		//	Ti.App.left_w.animate(animateToLeft);
 			isToggled = false;
 		}
 	});
 	
 	navMsgBtn.addEventListener('click',function(e){
 		if( !isToggled ){
-			Ti.App.home_w.add(Ti.App.right_w);
+			super_parent.add(Ti.App.right_w);
 			parent.animate(animateToLeft);
-			//rightMenu.animate(animateToLeft1);
 			isToggled = true;
 		} else {
 			parent.animate(animateToBegin);
-		//	rightMenu.animate(animateToEnd);
 			isToggled = false;
 		}
 	});
