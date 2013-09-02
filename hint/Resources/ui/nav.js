@@ -1,4 +1,4 @@
-exports.ApplicationWindow = function(page, parent,super_parent) {
+exports.ApplicationWindow = function(page, parent) {
 	var self=Ti.UI.iPhone.createNavigationGroup({
 	   window: page,
 	   left: 0,
@@ -19,18 +19,19 @@ exports.ApplicationWindow = function(page, parent,super_parent) {
 		curve: Ti.UI.ANIMATION_CURVE_EASE_OUT,
 		duration: 500
 	});
-	var animateToBegin = Ti.UI.createAnimation({
-		left: 0,
-		curve: Ti.UI.ANIMATION_CURVE_EASE_OUT,
-		duration: 500
-	});
+	
 	var animateToEnd = Ti.UI.createAnimation({
 		left: Ti.Platform.displayCaps.platformWidth,
 		curve: Ti.UI.ANIMATION_CURVE_EASE_OUT,
 		duration: 500
 	});	
+	var animateToBegin = Ti.UI.createAnimation({
+		left: 0,
+		curve: Ti.UI.ANIMATION_CURVE_EASE_OUT,
+		duration: 500
+	});
 	animateToBegin.addEventListener('complete', function(){ 
-	    if (super_parent.children) {
+	  /*  if (super_parent.children) {
 	        for (var c = super_parent.children.length - 1; c >= 0; c--) {
 	        	if(super_parent.children[c] == Ti.App.left_w){
 	        		super_parent.remove(Ti.App.left_w);
@@ -41,7 +42,7 @@ exports.ApplicationWindow = function(page, parent,super_parent) {
 	        		Ti.API.info("right window removed");
 	        	}
 	        }
-		}
+		}*/
 	});
 	
 
@@ -71,8 +72,8 @@ exports.ApplicationWindow = function(page, parent,super_parent) {
 	});
 	var isToggled = false;
 	navMenuBtn.addEventListener('click',function(e){
-		if( !isToggled ){
-			super_parent.add(Ti.App.left_w);
+		if( isToggled ){
+		//	super_parent.add(Ti.App.left_w);
 			parent.animate(animateToRight);
 			isToggled = true;
 		} else {
@@ -82,8 +83,8 @@ exports.ApplicationWindow = function(page, parent,super_parent) {
 	});
 	
 	navMsgBtn.addEventListener('click',function(e){
-		if( !isToggled ){
-			super_parent.add(Ti.App.right_w);
+		if( isToggled){
+			//super_parent.add(Ti.App.right_w);
 			parent.animate(animateToLeft);
 			isToggled = true;
 		} else {

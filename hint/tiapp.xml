@@ -17,6 +17,7 @@
     <analytics>true</analytics>
     <guid>3510010f-6bea-45f0-b217-d67aec557b5b</guid>
     <property name="ti.ui.defaultunit" type="string">system</property>
+    <property name="ti.facebook.appid">536422093082909</property>
     <iphone>
         <orientations device="iphone">
             <orientation>Ti.UI.PORTRAIT</orientation>
@@ -37,7 +38,11 @@
         </splash>
         <theme>default</theme>
     </mobileweb>
-    <modules/>
+    <modules>
+	    <!-- Add the appropriate line(s) to your modules section -->
+	    <module platform="android">facebook</module>
+	    <module platform="iphone">facebook</module>
+	</modules>
     <deployment-targets>
         <target device="android">false</target>
         <target device="blackberry">false</target>

@@ -77,7 +77,7 @@ exports.ApplicationWindow = function() {
 		height:34.5,
 		top:brand.top+brand.height+7
 	});
-	var cameraBtn=Ti.UI.createTextField({
+	var cameraBtn=Ti.UI.createLabel({
 		backgroundImage:'/images/HintCameraButton.png',
 		width:42,
 		height:37,
@@ -85,7 +85,7 @@ exports.ApplicationWindow = function() {
 		left:55
 	});
 	
-	var conformBtn=Ti.UI.createTextField({
+	var conformBtn=Ti.UI.createLabel({
 		backgroundImage:'/images/HintConfirmButton.png',
 		width:36,
 		height:36,
@@ -94,9 +94,7 @@ exports.ApplicationWindow = function() {
 	});
 	conformBtn.addEventListener('click',function(ev){
 		self.close();
-		var win=require('ui/base').ApplicationWindow;
-		win = new win('checkedin');
-		win.open();
+		Ti.App.changeCurrent(Ti.App.checked_in_w);
 	});
 	popup.add(photo);
 	popup.add(lebel1);

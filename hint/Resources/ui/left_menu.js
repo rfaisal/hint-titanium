@@ -1,4 +1,9 @@
 exports.ApplicationWindow = function() {
+	Ti.App.fb.addEventListener('logout', function(e) {
+	    Ti.API.info('Logged out');
+	    Ti.App.changeCurrent(Ti.App.login);
+	});
+
 	var self = Ti.UI.createWindow({  
 	    backgroundImage: '/images/HintBackgroundTexture.png',
 	    left:0,//-Ti.Platform.displayCaps.platformWidth*0.75,
@@ -11,6 +16,14 @@ exports.ApplicationWindow = function() {
 		height:44,
 		top:0,
 		left:0
+	});
+	var animateToBegin = Ti.UI.createAnimation({
+		left: 0,
+		curve: Ti.UI.ANIMATION_CURVE_EASE_OUT,
+		duration: 500
+	});
+	animateToBegin.addEventListener('complete', function(){ 
+	    Ti.App.remove_all_from_base(Ti.App.home_w);
 	});
 	var data=new Array();
 	for (var i = 0; i < 4; i++ ) { 
@@ -35,8 +48,20 @@ exports.ApplicationWindow = function() {
 				logo.width=16.5;
 				label.text = 'Nearby Places';
 				data[i].addEventListener('click',function(ev){
-					Ti.App.remove_all_from_base(Ti.App.home_w);
+					//Ti.App.showLeft();
+					Ti.App.changeCurrent(Ti.App.places_w);
 				});
+			/*	data[i].addEventListener('click',function(ev){
+					var t=Ti.App.not_checked_in_w;
+					if(t.children){
+						for (var c = t.children.length - 1; c >= 0; c--) {
+				        	if(t.children[c].id && t.children[c].id=='holder'){
+				        		t.children[c].animate(animateToBegin);
+				        	}	
+				        
+				        }
+					}
+				});*/
 				break;
 			case 1:
 				logo.backgroundImage = '/images/HintCurrentLookIcon.png';
@@ -44,12 +69,16 @@ exports.ApplicationWindow = function() {
 				logo.width=25.5;
 				logo.left=17;
 				label.text = 'Current Look';
+				
 				break;
 			case 2:
 				logo.backgroundImage = '/images/HintAppSettingsIcon.png';
 				logo.height=20.5;
 				logo.width=20.5;
 				label.text = 'App Settings';
+				data[i].addEventListener('click',function(ev){
+					//Ti.App.changeCurrent(Ti.App.app_settings_w);
+				});
 				break;
 			case 3:
 				logo.backgroundImage = '/images/HintMyEventsIcon.png';
@@ -79,6 +108,10 @@ exports.ApplicationWindow = function() {
 		width:163,
 		height:33
 	});
+	logoutButton.addEventListener('click',function(ev){
+		//Ti.App.changeCurrent(Ti.App.login);
+			Ti.App.fb.logout();
+	});
 	data1= new Array();
 	data1[0]= Ti.UI.createTableViewRow(
 		 {
@@ -107,6 +140,6 @@ exports.ApplicationWindow = function() {
 	self.add(header);
 	self.add(tableView1);
 	self.add(tableView2);
-	self.add(shadow)
+	//self.add(shadow)
 	return self;
 };

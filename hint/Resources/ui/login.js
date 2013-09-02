@@ -1,4 +1,32 @@
-exports.ApplicationWindow = function(loggedInListener) {
+exports.ApplicationWindow = function() {
+	Ti.App.fb.forceDialogAuth = true;
+	Ti.App.fb.addEventListener('login', function(e) {
+		if (e.success) {
+		    Ti.API.info('Logged In');
+		    Ti.App.changeCurrent(Ti.App.places_w);
+		    Ti.App.fb.requestWithGraphPath('me', {}, 'GET', function(e) {
+			    if (e.success) {
+			    	var r=JSON.parse(e.result);
+			    	Ti.App.user={
+					    fbuid: r['id'], // API expects a JSON stringified date
+					    name: r.name,
+					    email: r.email,
+					    gender: r.gender
+					};
+			        Ti.API.info(Ti.App.user);
+			    } else if (e.error) {
+			    	Ti.API.info(e.error);
+			    } else {
+			    	Ti.API.info('Unknown response');
+			    }
+			});
+		} else if (e.error) {
+		    Ti.API.info(e.error);
+		} else if (e.cancelled) {
+		    Ti.API.info('Canceled');
+		    }
+	});
+
 	var self = Ti.UI.createWindow({  
 	    backgroundImage: '/images/HintBackgroundTexture.png'
 	});
@@ -32,7 +60,10 @@ exports.ApplicationWindow = function(loggedInListener) {
 		height:35.5,
 		top:lebel1.top+lebel1.height+60
 	});
-	loginButton.addEventListener('click',loggedInListener);
+	loginButton.addEventListener('click',function(ev){
+		Ti.App.fb.authorize();
+
+	});
 	var lebel2=Ti.UI.createLabel({
 		text:'(We promise to never post to your Facebook account.)',
 		color:'#9c9990',

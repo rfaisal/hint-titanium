@@ -109,6 +109,6 @@ exports.ApplicationWindow = function() {
 	});
 	self.add(header);
 	self.add(tableView1);
-	self.add(shadow)
+//	self.add(shadow)
 	return self;
 };
