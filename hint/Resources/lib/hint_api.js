@@ -1,6 +1,6 @@
 function hint_api (_api_name,_url,_method,_hint_globals)
 {
-	that=this;
+	var that=this;
 	this.api_name = _api_name;
 	this.url=_url;
 	this.method=_method;
