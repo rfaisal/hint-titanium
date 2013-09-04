@@ -1,4 +1,4 @@
-function http_build_query (formdata, numeric_prefix, arg_separator) {
+function httpBuildQuery (formdata, numeric_prefix, arg_separator) {
   var value, key, tmp = [],
     that = this;
 	this.urlencode = function  (str) {
@@ -48,4 +48,4 @@ function http_build_query (formdata, numeric_prefix, arg_separator) {
   return tmp.join(arg_separator);
 }
 
-exports.http_build_query = http_build_query;
+exports.httpBuildQuery = httpBuildQuery;
