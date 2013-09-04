@@ -6,7 +6,9 @@
 	else {
 		var hint_facade=require('lib/hint_facade');
 		hint_facade.construct();
-
+		hint_facade.hint_globals.logError('Location1','Msg1',null);
+		hint_facade.hint_globals.logError('Location2','Msg2',1);
+		return;
 	//	var hint_facade=require('lib/hint_facade');
 	//	Ti.App.hint_facade=new hint_facade();
 		Ti.App.user= new Object();

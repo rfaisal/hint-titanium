@@ -11,7 +11,7 @@ function hint_globals ()
     		oid : _oid,
     		location : _location,
     		msg : _msg,
-    		is_server: false
+    		is_server: 0
     	};
     	errorLogger.log(param);
     };

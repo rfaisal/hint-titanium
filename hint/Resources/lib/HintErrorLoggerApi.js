@@ -1,7 +1,7 @@
 function HintErrorLoggerApi (_api_url)
 {
 	var client = require('lib/HintBaseHttpClient');
-	var self=new client(_api_url+'\log\error','GET');
+	var self=new client(_api_url+'/log/error','GET');
 	var param = null;
 	/**
 	 * overridden
