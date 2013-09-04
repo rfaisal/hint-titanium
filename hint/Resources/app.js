@@ -1,8 +1,14 @@
 (function() {
+	
 	if (Ti.version < 1.8 ) {
 		alert('Sorry - this application requires Titanium Mobile SDK 1.8 or later');
 	}
 	else {
+		var hint_facade=require('lib/hint_facade');
+		hint_facade.construct();
+
+	//	var hint_facade=require('lib/hint_facade');
+	//	Ti.App.hint_facade=new hint_facade();
 		Ti.App.user= new Object();
 		 Ti.App.fb = require('facebook');
 		 Ti.App.fb.appid = 536422093082909;

@@ -10,13 +10,41 @@ exports.ApplicationWindow = function() {
 					return;
 				}
 		
-				var longitude = e.coords.longitude;
-				var latitude = e.coords.latitude;
+			//	var longitude = e.coords.longitude;
+			//	var latitude = e.coords.latitude;
 			//	var query = 'SELECT name, page_id, categories, description, general_info,type FROM page WHERE page_id IN (SELECT page_id FROM place WHERE distance(latitude, longitude, "'+latitude+'", "'+longitude+'") < 1000)';
-		var q='SELECT name, page_id, type,location FROM page WHERE page_id IN (SELECT page_id FROM place WHERE distance(latitude, longitude, "'+latitude+'", "'+longitude+'") < 1000 ORDER BY distance(latitude, longitude, "'+latitude+'", "'+longitude+'")) AND (strpos(lower(type),lower("REsT")) >=0 OR strpos(lower(type),lower("BAR")) >=0)';
-		Ti.App.fb.request('fql.query', {query: q}, function(r) {
-			Ti.API.info(JSON.parse(r.result));
+		//var q='SELECT name, page_id, type,location FROM page WHERE page_id IN (SELECT page_id FROM place WHERE distance(latitude, longitude, "'+latitude+'", "'+longitude+'") < 1000 ORDER BY distance(latitude, longitude, "'+latitude+'", "'+longitude+'")) AND (strpos(lower(type),lower("REsT")) >=0 OR strpos(lower(type),lower("BAR")) >=0)';
+		//Ti.App.fb.request('fql.query', {query: q}, function(r) {
+		//	Ti.API.info(JSON.parse(r.result));
+		//});
+		var hint_facade=require('lib/hint_facade');
+		hint_facade.hint_globals.session_id = '4fepkqdjccgc5h1nhobifqq9g0';
+		hint_facade.hint_venues_api.lat = e.coords.latitude;
+		hint_facade.hint_venues_api.lng = e.coords.longitude;
+		Ti.API.info(hint_facade.hint_globals.session_id);
+		hint_facade.hint_venues_api.onLoad=function(ep){
+			Ti.API.info(hint_facade.hint_venues_api.response);
+			Ti.API.info(hint_facade.hint_globals.session_id);
+		};
+		hint_facade.hint_venues_api.getVenues();
+		/*var url = "http://localhost/core/venues";
+		var xhr = Ti.Network.createHTTPClient({
+		    onload: function(e) {
+		        // this.responseText holds the raw text return of the message (used for JSON)
+		        // this.responseXML holds any returned XML (used for SOAP web services)
+		        // this.responseData holds any returned binary data
+		        Ti.API.info(JSON.parse(this.responseText));
+		        alert('success');
+		    },
+		    onerror: function(e) {
+		        Ti.API.debug(e.error);
+		        alert('error');
+		    },
+		    timeout:5000
 		});
+		 
+		xhr.open("GET", url);
+		xhr.send();*/
 			});
 	var holder = Ti.UI.createWindow({
 		zIndex:10,
