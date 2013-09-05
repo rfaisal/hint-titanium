@@ -47,5 +47,15 @@ function httpBuildQuery (formdata, numeric_prefix, arg_separator) {
 
   return tmp.join(arg_separator);
 }
-
+function sortFunctionByProperty(prop){
+   return function(a,b){
+      if( a[prop] > b[prop]){
+          return 1;
+      }else if( a[prop] < b[prop] ){
+          return -1;
+      }
+      return 0;
+   }
+}
 exports.httpBuildQuery = httpBuildQuery;
+exports.sortFunctionByProperty = sortFunctionByProperty;

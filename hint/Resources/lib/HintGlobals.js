@@ -18,5 +18,6 @@ function HintGlobals ()
     	};
     	errorLogger.log(param);
     };
+    this.globalEventDispatcher = Ti.Network.createHTTPClient({});
 }
 module.exports = HintGlobals;

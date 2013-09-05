@@ -1,51 +1,76 @@
 exports.ApplicationWindow = function() {
-	
-	Titanium.Geolocation.getCurrentPosition(function(e)
-			{
-				if (!e.success || e.error)
-				{
-					currentLocation.text = 'error: ' + JSON.stringify(e.error);
-					Ti.API.info("Code translation: "+translateErrorCode(e.code));
-					alert('error ' + JSON.stringify(e.error));
-					return;
+	var HintFacade=require('lib/HintFacade');
+	HintFacade.addEventListener('geo_location_received',function(e){
+		HintFacade.hintVenuesApi.lat=e.lat;
+		HintFacade.hintVenuesApi.lng=e.lng;
+		HintFacade.hintVenuesApi.getVenues();
+	});
+	HintFacade.hintVenuesApi.addEventListener('api_loaded',function(e){
+		refresh();
+	});
+	var refresh=function(){
+		if(HintFacade.hintVenuesApi.response != null && HintFacade.hintVenuesApi.response.result != null){
+			var list=HintFacade.hintVenuesApi.response.result;
+			var HintUtils = require ('/lib/HintUtils');
+			list.sort( HintUtils.sortFunctionByProperty("distance") );
+			
+			var data=new Array();
+			for (var i = 0; i < list.length; i++) { 			   
+				var logo = Ti.UI.createImageView({
+				    left: 10,
+				    width:40,
+				    height:40,
+				    image:list[i]['icon'],
+				    borderWidth:0.5,
+				    borderColor:'#e6e5e6'
+				});
+			/*	Titanium.UI.({
+				        url:list[i].icon,
+				        defaultImage:loaderimage
+				});*/
+		
+				var label = Ti.UI.createLabel({
+				    color: '#9c9990',
+				    font: {fontSize:18,fontFamily: 'Lato'},
+				    height:20,
+				    left: 75,
+				    top:5,
+				    text: list[i].name
+				});
+				var label1 = Ti.UI.createLabel({
+				    color: '#9c9990',
+				    font: {fontSize:14,fontFamily: 'Lato'},
+				    height:20,
+				    left: 75,
+				    top:30,
+				    text: list[i].address + ' ('+(Math.round( 0.000621371 * 10 * list[i].distance) / 10)+' mi)'
+				});
+				
+				 data[i]= Ti.UI.createTableViewRow(
+				 {
+				    width:Ti.Platform.displayCaps.platformWidth,
+				    height:55.5
+				 });
+				switch(i%3){
+					case 0:
+						data[i].backgroundImage='/images/HintOrangeTableViewCell.png';
+						break;
+					case 1:
+						data[i].backgroundImage='/images/HintGreenTableViewCell.png';
+						break;
+					case 2:
+						data[i].backgroundImage='/images/HintPinkTableViewCell.png';
+						break;
 				}
 		
-			//	var longitude = e.coords.longitude;
-			//	var latitude = e.coords.latitude;
-			//	var query = 'SELECT name, page_id, categories, description, general_info,type FROM page WHERE page_id IN (SELECT page_id FROM place WHERE distance(latitude, longitude, "'+latitude+'", "'+longitude+'") < 1000)';
-		//var q='SELECT name, page_id, type,location FROM page WHERE page_id IN (SELECT page_id FROM place WHERE distance(latitude, longitude, "'+latitude+'", "'+longitude+'") < 1000 ORDER BY distance(latitude, longitude, "'+latitude+'", "'+longitude+'")) AND (strpos(lower(type),lower("REsT")) >=0 OR strpos(lower(type),lower("BAR")) >=0)';
-		//Ti.App.fb.request('fql.query', {query: q}, function(r) {
-		//	Ti.API.info(JSON.parse(r.result));
-		//});
-		var hint_facade=require('lib/hint_facade');
-		hint_facade.hint_globals.session_id = '4fepkqdjccgc5h1nhobifqq9g0';
-		hint_facade.hint_venues_api.lat = e.coords.latitude;
-		hint_facade.hint_venues_api.lng = e.coords.longitude;
-		Ti.API.info(hint_facade.hint_globals.session_id);
-		hint_facade.hint_venues_api.onLoad=function(ep){
-			Ti.API.info(hint_facade.hint_venues_api.response);
-			Ti.API.info(hint_facade.hint_globals.session_id);
-		};
-		hint_facade.hint_venues_api.getVenues();
-		/*var url = "http://localhost/core/venues";
-		var xhr = Ti.Network.createHTTPClient({
-		    onload: function(e) {
-		        // this.responseText holds the raw text return of the message (used for JSON)
-		        // this.responseXML holds any returned XML (used for SOAP web services)
-		        // this.responseData holds any returned binary data
-		        Ti.API.info(JSON.parse(this.responseText));
-		        alert('success');
-		    },
-		    onerror: function(e) {
-		        Ti.API.debug(e.error);
-		        alert('error');
-		    },
-		    timeout:5000
-		});
-		 
-		xhr.open("GET", url);
-		xhr.send();*/
-			});
+				//data[i].add(label0);
+				 data[i].add(logo);
+				 data[i].add(label);
+				 data[i].add(label1); 
+			}
+			tableview.setData(data);
+		}
+	};
 	var holder = Ti.UI.createWindow({
 		zIndex:10,
 		left:0
@@ -60,6 +85,7 @@ exports.ApplicationWindow = function() {
 		barColor:'#fff',
 		hintText: 'Search Places, Venue Types', 
 	    height:44.5,
+		backgroundImage:'/images/HintSearchBarSmall.png',
 	   	font:{
        		fontSize:8,
       		fontFamily: 'Lato'
@@ -67,6 +93,14 @@ exports.ApplicationWindow = function() {
 	    width:Ti.Platform.displayCaps.platformWidth,
 	    top:0
 	});
+	search.addEventListener('return', function(e) { 
+		HintFacade.hintVenuesApi.cat_search=e.value;
+		HintFacade.hintGeoApiWrapper.getLocation();
+		search.blur(); 
+	}); 
+	search.addEventListener('cancel', function(e) { 
+		search.blur(); 
+	}); 
 	// create table view
 	var data=new Array();
 	for (var i = 0; i < 11; i++ ) { 

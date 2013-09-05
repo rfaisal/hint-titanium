@@ -1,5 +1,5 @@
 exports.ApplicationWindow = function() {
-	Ti.App.fb.forceDialogAuth = true;
+	/*Ti.App.fb.forceDialogAuth = true;
 	Ti.App.fb.addEventListener('login', function(e) {
 		if (e.success) {
 		    Ti.API.info('Logged In');
@@ -26,7 +26,11 @@ exports.ApplicationWindow = function() {
 		    Ti.API.info('Canceled');
 		    }
 	});
-
+*/
+	var HintFacade=require('lib/HintFacade');
+	HintFacade.addEventListener('logged_in',function(){
+		Ti.App.changeCurrent(Ti.App.places_w);
+	});
 	var self = Ti.UI.createWindow({  
 	    backgroundImage: '/images/HintBackgroundTexture.png'
 	});
@@ -61,8 +65,7 @@ exports.ApplicationWindow = function() {
 		top:lebel1.top+lebel1.height+60
 	});
 	loginButton.addEventListener('click',function(ev){
-		Ti.App.fb.authorize();
-
+		HintFacade.login();
 	});
 	var lebel2=Ti.UI.createLabel({
 		text:'(We promise to never post to your Facebook account.)',

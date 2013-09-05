@@ -1,7 +1,7 @@
 function HintLogInApi (_hintGlobals)
 {
 	var api = require('lib/HintBaseApi');
-	var self = new api('hint_venues',_hintGlobals.apiUrl+'/core/login','GET',_hintGlobals); 
+	var self = new api('hint_login',_hintGlobals.apiUrl+'/core/login','GET',_hintGlobals); 
 	self.getVars=function(){
 		var param = {
     		fuid : self.hintGlobals.fbUserId,
@@ -9,7 +9,7 @@ function HintLogInApi (_hintGlobals)
     	};
 		return param;
 	}
-	self.getVenues=function(){
+	self.logInToHint=function(){
 		self.load();
 	};
 	return self;

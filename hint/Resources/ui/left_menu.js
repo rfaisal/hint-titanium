@@ -1,8 +1,5 @@
 exports.ApplicationWindow = function() {
-	Ti.App.fb.addEventListener('logout', function(e) {
-	    Ti.API.info('Logged out');
-	    Ti.App.changeCurrent(Ti.App.login);
-	});
+	
 
 	var self = Ti.UI.createWindow({  
 	    backgroundImage: '/images/HintBackgroundTexture.png',
@@ -110,7 +107,11 @@ exports.ApplicationWindow = function() {
 	});
 	logoutButton.addEventListener('click',function(ev){
 		//Ti.App.changeCurrent(Ti.App.login);
-			Ti.App.fb.logout();
+			var HintFacade=require('lib/HintFacade');
+			HintFacade.addEventListener('logged_out',function(){
+				Ti.App.changeCurrent(Ti.App.login);
+			});
+			HintFacade.logout();
 	});
 	data1= new Array();
 	data1[0]= Ti.UI.createTableViewRow(
